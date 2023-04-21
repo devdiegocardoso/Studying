@@ -9,6 +9,6 @@ class TestSort(unittest.TestCase):
         self.array = [5,4,3,-3,2,1]
     def test_selection(self):
         self.assertEqual(selection_sort(self.array),[-3,1,2,3,4,5])
-    
+
 if __name__ == '__main__':
     unittest.main()
