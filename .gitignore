@@ -1,0 +1,33 @@
+# Compiled Python files
+*.pyc
+
+# Python virtual environments
+venv/
+env/
+.env/
+.venv/
+
+# Packages
+dist/
+build/
+*.egg-info/
+
+# Distribution / packaging
+*.egg
+*.egg-info
+*.tar.gz
+*.deb
+*.rpm
+
+# IDE specific files
+.idea/
+.vscode/
+*.pydevproject
+*.pycproject
+*.project
+*.settings/
+*.tmproj
+
+# OS-specific files
+.DS_Store
+Thumbs.db
