@@ -11,8 +11,3 @@ def recursive_block(height,width):
     if height % width == 0 or width % height == 0:
         return min(height, width)
     return recursive_block(*divide_block(height,width))
-
-
-print(recursive_block(1680,640))
-print(recursive_block(1050,100))
-print(recursive_block(1234,2345))
