@@ -1,6 +1,6 @@
 # pylint: disable=missing-docstring
 
-from collections import deque
+from collections import deque, defaultdict
 from dataclasses import dataclass
 
 @dataclass
@@ -9,7 +9,8 @@ class Place:
 
     def hash_value(self):
         return self.name
-    def is_my_goal(self,goal):
+
+    def is_my_goal(self, goal):
         return self.name == goal
 
 twin_peaks = Place("twin peaks")
@@ -23,28 +24,25 @@ golden_gate = Place("golden gate")
 graph = {
     "twin peaks": [point_a, point_b],
     "A": [point_d],
-    "B": [point_c,point_e],
+    "B": [point_c, point_e],
     "C": [point_d],
     "D": [golden_gate],
     "E": [point_d],
     "golden gate": [],
 }
 
-def print_route(end,parents_list):
+def print_route(end, parents_list):
     route = [end.hash_value()]
     current_node = parents_list[end.hash_value()][0]
-    while current_node is not None:
+    while current_node:
         route.append(current_node[0])
         current_node = parents_list[current_node[0]]
     route.reverse()
     print(route)
 
-def create_children_list(parents_list,current_parent):
+def create_children_list(parents_list, current_parent):
     for child in graph[current_parent.hash_value()]:
-        if parents_list.get(child.hash_value()):
-            parents_list[child.hash_value()] += [current_parent.hash_value()]
-        else:
-            parents_list[child.hash_value()] = [current_parent.hash_value()]
+        parents_list.setdefault(child.hash_value(), []).append(current_parent.hash_value())
 
 def bfs(queue):
     checked = []
@@ -53,17 +51,17 @@ def bfs(queue):
         if current_place not in checked:
             if current_place.is_my_goal("golden gate"):
                 print("Route found!")
-                print_route(current_place,parents)
+                print_route(current_place, parents)
                 return True
-            queue += graph[current_place.hash_value()]
+            queue.extend(graph[current_place.hash_value()])
             checked.append(current_place)
-            create_children_list(parents,current_place)
+            create_children_list(parents, current_place)
     print("No route found :(")
     return False
 
 search_queue = deque()
-search_queue += graph[twin_peaks.hash_value()]
-parents = {twin_peaks.hash_value():None}
-create_children_list(parents,twin_peaks)
+search_queue.extend(graph[twin_peaks.hash_value()])
+parents = defaultdict(list)
+create_children_list(parents, twin_peaks)
 
 bfs(search_queue)
