@@ -34,18 +34,20 @@ def find_lowest_cost_node():
             lowest_cost_node = node
     return lowest_cost_node
 
-
-current_node = find_lowest_cost_node()
-while current_node is not None:
-    cost = costs[current_node]
-    neighbors = graph[current_node]
-    for n in neighbors.keys():
-        new_cost = cost + neighbors[n]
-        if costs[n] > new_cost:
-            costs[n] = new_cost
-            parents[n] = current_node
-    processed.append(current_node)
+def dijkstra():
     current_node = find_lowest_cost_node()
+    while current_node is not None:
+        cost = costs[current_node]
+        neighbors = graph[current_node]
+        for node in neighbors.keys():
+            new_cost = cost + neighbors[node]
+            if costs[node] > new_cost:
+                costs[node] = new_cost
+                parents[node] = current_node
+        processed.append(current_node)
+        current_node = find_lowest_cost_node()
+
+dijkstra()
 
 track_node = parents[GOAL]
 route = [GOAL]
