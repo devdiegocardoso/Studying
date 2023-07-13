@@ -1,7 +1,7 @@
 # pylint: disable=missing-docstring
 
 import unittest
-from dijkstra import Dijkstra, BFS
+from graph import Dijkstra, BFS
 from node import Node
 
 INFINITY = float("inf")
