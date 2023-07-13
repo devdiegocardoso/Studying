@@ -14,7 +14,6 @@ class Graph():
         self.checked = []
         self.route = []
         self.costs = {}
-        self.goal = None
 
     def get_route(self):
         return self.route
@@ -51,18 +50,24 @@ class Graph():
     def dijkstra(self,goal:Node):
         current_node = self.find_lowest_cost_node()
         while current_node is not None:
-            cost = self.costs[current_node]
-            neighbors = self.graph[current_node]
-            for node in neighbors.keys():
-                new_cost = cost + neighbors[node]
-                if self.costs[node] > new_cost:
-                    self.costs[node] = new_cost
-                    self.parent_dict[node] = current_node
-            self.checked.append(current_node)
-            current_node = self.find_lowest_cost_node()
+            current_node = self.pick_new_node(current_node)
 
         self.find_route(goal)
         return self.route, self.costs[goal]
+
+    def pick_new_node(self, current_node):
+        cost = self.costs[current_node]
+        neighbors = self.graph[current_node]
+        for node in neighbors.keys():
+            self.evaluate_cost(current_node, cost, neighbors, node)
+        self.checked.append(current_node)
+        return self.find_lowest_cost_node()
+
+    def evaluate_cost(self, current_node, cost, neighbors, node):
+        new_cost = cost + neighbors[node]
+        if self.costs[node] > new_cost:
+            self.costs[node] = new_cost
+            self.parent_dict[node] = current_node
 
     def find_route(self, goal):
         track_node = self.parent_dict[goal]
