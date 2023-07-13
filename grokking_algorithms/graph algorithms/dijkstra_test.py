@@ -65,10 +65,10 @@ class TestDijkstraSearch(unittest.TestCase):
         self.graph.set_parent(self.golden_gate)
 
     def test_dijkstra_route(self):
-        route,_ = self.graph.dijkstra(self.golden_gate)
-        self.assertListEqual(route,[self.twin_peaks, self.point_b, self.point_a, self.golden_gate])
+        self.graph.dijkstra(self.golden_gate)
+        self.assertListEqual(self.graph.get_route(),[self.twin_peaks, self.point_b, self.point_a, self.golden_gate])
     def test_dijkstra_cost(self):
-        _,cost = self.graph.dijkstra(self.golden_gate)
+        cost = self.graph.dijkstra(self.golden_gate)
         self.assertEqual(cost,6)
 
 if __name__ == '__main__':

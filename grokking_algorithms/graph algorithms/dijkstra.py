@@ -45,7 +45,7 @@ class Dijkstra(Graph):
             current_node = self.pick_new_node(current_node)
 
         self.find_route(goal)
-        return self.route, self.costs[goal]
+        return self.costs[goal]
 
     def pick_new_node(self, current_node):
         cost = self.costs[current_node]
