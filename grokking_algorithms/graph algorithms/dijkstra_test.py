@@ -1,14 +1,14 @@
 # pylint: disable=missing-docstring
 
 import unittest
-from dijkstra import Graph
+from dijkstra import Dijkstra, BFS
 from node import Node
 
 INFINITY = float("inf")
 
 class TestGraphSearch(unittest.TestCase):
     def setUp(self):
-        self.graph = Graph()
+        self.graph = BFS()
         self.twin_peaks = Node("twin peaks")
         self.point_a = Node("A")
         self.point_b = Node("B")
@@ -17,8 +17,8 @@ class TestGraphSearch(unittest.TestCase):
         self.point_e = Node("E")
         self.golden_gate = Node("golden gate")
         self.fill_graph()
+
     def fill_graph(self):
-        
         self.graph.add_node(self.twin_peaks,self.point_a)
         self.graph.add_node(self.twin_peaks,self.point_b)
         self.graph.add_node(self.point_a,self.point_d)
@@ -40,7 +40,7 @@ class TestGraphSearch(unittest.TestCase):
 
 class TestDijkstraSearch(unittest.TestCase):
     def setUp(self):
-        self.graph = Graph()
+        self.graph = Dijkstra()
         self.twin_peaks = Node("twin peaks")
         self.point_a = Node("A")
         self.point_b = Node("B")

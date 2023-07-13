@@ -5,38 +5,30 @@ from node import Node
 
 class Graph():
     def __init__(self) -> None:
-        self.reset_graph()
-
-    def reset_graph(self):
         self.graph = {}
         self.parent_dict = {}
-        self.search_queue = deque()
         self.checked = []
         self.route = []
-        self.costs = {}
 
     def get_route(self):
         return self.route
-
-    def start_from(self,node: Node):
-        self.search_queue.append(node)
 
     def add_node(self, parent:Node, child:Node=None,cost=0):
         self.graph.setdefault(parent,{})
         if child:
             self.graph[parent].update({child:cost})
 
-    def set_cost(self,node:Node,cost=0):
-        self.costs[node] = cost
-
     def set_parent(self,child:Node,parent:Node=None):
         self.parent_dict[child] = parent
 
-    def create_route(self,current_node):
-        while current_node:
-            self.route.append(current_node.name)
-            current_node = self.parent_dict.get(current_node,None)
-        self.route.reverse()
+
+class Dijkstra(Graph):
+    def __init__(self) -> None:
+        Graph.__init__(self)
+        self.costs = {}
+
+    def set_cost(self,node:Node,cost=0):
+        self.costs[node] = cost
 
     def find_lowest_cost_node(self):
         lowest_cost = float("inf")
@@ -76,6 +68,20 @@ class Graph():
             self.route.append(track_node)
             track_node = self.parent_dict[track_node]
         self.route.reverse()
+
+class BFS(Graph):
+    def __init__(self) -> None:
+        Graph.__init__(self)
+        self.search_queue = deque()
+
+    def create_route(self,current_node):
+        while current_node:
+            self.route.append(current_node.name)
+            current_node = self.parent_dict.get(current_node,None)
+        self.route.reverse()
+
+    def start_from(self,node: Node):
+        self.search_queue.append(node)
 
     def bfs(self,goal):
         while self.search_queue:
